@@ -1,5 +1,6 @@
 package com.example.GestionHackaton.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,10 +9,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Membre {
+public class Membre implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_membre")
@@ -49,14 +58,15 @@ public class Membre {
 	
 
 	@ManyToMany (mappedBy = "membre")
+	@JsonIgnore
 	private Set<Evenement> Hackatons = new HashSet<>();
 	
-	public long getId_admin() {
-		return id_mem;
-	}
-	public void setId_admin(long id_admin) {
-		this.id_mem = id_admin;
-	}
+	
+    @ManyToOne
+    @JsonIgnore
+    @JoinColumn(name="id_equipe")
+    private equipe Eqs;
+
 	public String getPrenom() {
 		return prenom;
 	}
@@ -116,6 +126,24 @@ public class Membre {
 	}
 	public void setSexe(String sexe) {
 		this.sexe = sexe;
+	}
+	public long getId_mem() {
+		return id_mem;
+	}
+	public void setId_mem(long id_mem) {
+		this.id_mem = id_mem;
+	}
+	public Set<Evenement> getHackatons() {
+		return Hackatons;
+	}
+	public void setHackatons(Set<Evenement> hackatons) {
+		Hackatons = hackatons;
+	}
+	public equipe getEqs() {
+		return Eqs;
+	}
+	public void setEqs(equipe eqs) {
+		Eqs = eqs;
 	}
 	
 	

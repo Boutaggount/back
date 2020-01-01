@@ -1,13 +1,23 @@
 package com.example.GestionHackaton.model;
 
+import java.io.Serializable;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class Administrateur {
+public class Administrateur implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_Admin")
@@ -37,6 +47,9 @@ public class Administrateur {
 		this.pwd = pwd;
 	}
 
+    @OneToMany(mappedBy="admins")
+    @JsonIgnore
+    private Set<Evenement> events;
 	public long getId_admin() {
 		return id_admin;
 	}
@@ -99,6 +112,14 @@ public class Administrateur {
 
 	public void setPwd(String pwd) {
 		this.pwd = pwd;
+	}
+
+	public Set<Evenement> getEvents() {
+		return events;
+	}
+
+	public void setEvents(Set<Evenement> events) {
+		this.events = events;
 	}
 	
 	

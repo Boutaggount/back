@@ -1,5 +1,6 @@
 package com.example.GestionHackaton.model;
 
+import java.io.Serializable;
 import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -14,6 +15,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 
 
@@ -21,8 +26,12 @@ import javax.persistence.ManyToOne;
 
 @Entity
 
-public class Evenement {
+public class Evenement implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "id_Hackaton")
@@ -30,21 +39,24 @@ public class Evenement {
 	private String intitule;
 	private String description;
 	private String theme;
-	private String capacite;
+	private int capacite;
 	private Date date_debut;
 	private Date date_fin;
 	private String ville;
 	private String etablisement;
 	private String address;
-	//private   Set<equipe> Equipe;
+	private int nbr;
+
+
 
   
 	public Evenement() {
 		super();
 	}
 	
-	public Evenement(long id, String intitule, String description, String theme, String capacite, Date date_debut,
-			Date date_fin, String ville, String etablisement, String address) {
+
+	  public Evenement(long id, String intitule, String description, String theme, int capacite, Date date_debut,
+			Date date_fin, String ville, String etablisement, String address, int nbr) {
 		super();
 		this.id = id;
 		this.intitule = intitule;
@@ -56,16 +68,28 @@ public class Evenement {
 		this.ville = ville;
 		this.etablisement = etablisement;
 		this.address = address;
+		this.nbr = nbr;
 	}
-	  @ManyToMany(cascade = { CascadeType.ALL })
+
+
+	@ManyToMany(cascade = { CascadeType.ALL })
+	  @JsonIgnore
 	    @JoinTable(
 	        name = "Pers_Hack", 
 	        joinColumns = { @JoinColumn(name = "id_Hackaton") }, 
 	        inverseJoinColumns = { @JoinColumn(name = "id_membre") }
 	    )
 	    Set<Membre> membre = new HashSet<>();
-	  
+
+	    @OneToMany(mappedBy="event")
+	    @JsonIgnore
+	    private Set<equipe> eq;
 		
+	    @ManyToOne
+	    @JsonIgnore
+	    @JoinColumn(name="id_Admin")
+	    private Administrateur admins;
+	    
 	public Set<Membre> getMembre() {
 		return membre;
 	}
@@ -96,10 +120,10 @@ public class Evenement {
 	public void setTheme(String theme) {
 		this.theme = theme;
 	}
-	public String getCapacite() {
+	public int getCapacite() {
 		return capacite;
 	}
-	public void setCapacite(String capacite) {
+	public void setCapacite(int capacite) {
 		this.capacite = capacite;
 	}
 	public Date getDate_debut() {
@@ -132,15 +156,31 @@ public class Evenement {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-/*
-	public Set<equipe> getEquipe() {
-		return Equipe;
+
+	public Set<equipe> getEq() {
+		return eq;
 	}
 
-	public void setEquipe(Set<equipe> equipe) {
-		Equipe = equipe;
+	public void setEq(Set<equipe> eq) {
+		this.eq = eq;
 	}
-	*/
+
+	public Administrateur getAdmins() {
+		return admins;
+	}
+
+	public void setAdmins(Administrateur admins) {
+		this.admins = admins;
+	}
+
+	public int getNbr() {
+		return nbr;
+	}
+
+	public void setNbr(int nbrEquipe) {
+		this.nbr = nbrEquipe;
+	}
+
 	
 	
 }
