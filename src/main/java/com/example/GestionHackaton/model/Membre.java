@@ -61,11 +61,10 @@ public class Membre implements Serializable{
 	@JsonIgnore
 	private Set<Evenement> Hackatons = new HashSet<>();
 	
-	
-    @ManyToOne
-    @JsonIgnore
-    @JoinColumn(name="id_equipe")
-    private equipe Eqs;
+	@ManyToMany (mappedBy = "membres")
+	@JsonIgnore
+	private Set<equipe> eq = new HashSet<>();
+
 
 	public String getPrenom() {
 		return prenom;
@@ -139,12 +138,13 @@ public class Membre implements Serializable{
 	public void setHackatons(Set<Evenement> hackatons) {
 		Hackatons = hackatons;
 	}
-	public equipe getEqs() {
-		return Eqs;
+	public Set<equipe> getEq() {
+		return eq;
 	}
-	public void setEqs(equipe eqs) {
-		Eqs = eqs;
+	public void setEq(Set<equipe> eq) {
+		this.eq = eq;
 	}
+
 	
 	
 

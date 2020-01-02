@@ -36,9 +36,23 @@ public class EvenementController {
 	EvenementRepository evenementrepository;
 	@Autowired
 	MembreRepository memrepository;
-	@Autowired
+ 	@Autowired
 	AdministrateurRepository adminrepository;
-
+	
+	
+	@PostMapping("/update")
+	public void update(@RequestBody Evenement event){
+		Evenement newev= evenementrepository.findById(event.getId()).get();
+		event.setAdmins(newev.getAdmins());
+		event.setMembre(newev.getMembre());
+		System.out.println("************"+newev.getMembre().size());
+			evenementrepository.saveAndFlush(event);
+		}
+		
+			
+		
+	
+	
 	@PostMapping("/save")
 	public String save(@RequestBody Evenement event){
 		Evenement ev= evenementrepository.saveAndFlush(event);	
@@ -102,6 +116,8 @@ public class EvenementController {
 		evenementrepository.deleteById(id);
 		return true;
 	}
+
+
 	
 	@GetMapping("/maListEvnts/{id}")
 	public List<Evenement> MaListEvent(@PathVariable Long id){

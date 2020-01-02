@@ -46,12 +46,14 @@ public class Evenement implements Serializable {
 	private String etablisement;
 	private String address;
 	private int nbr;
+	private boolean eqestcreer;
 
 
 
   
 	public Evenement() {
 		super();
+		this.eqestcreer=false;
 	}
 	
 
@@ -69,6 +71,7 @@ public class Evenement implements Serializable {
 		this.etablisement = etablisement;
 		this.address = address;
 		this.nbr = nbr;
+		this.eqestcreer=false;
 	}
 
 
@@ -179,6 +182,16 @@ public class Evenement implements Serializable {
 
 	public void setNbr(int nbrEquipe) {
 		this.nbr = nbrEquipe;
+	}
+
+
+	public boolean isEqestcreer() {
+		return eqestcreer;
+	}
+
+
+	public void setEqestcreer(boolean eqestcreer) {
+		this.eqestcreer = eqestcreer;
 	}
 
 	

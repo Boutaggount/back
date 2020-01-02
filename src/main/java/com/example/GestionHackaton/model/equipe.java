@@ -3,14 +3,18 @@ package com.example.GestionHackaton.model;
 
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -47,9 +51,14 @@ public class equipe implements Serializable{
 	 @JoinColumn(name="id_Hackaton")
 	    private Evenement event;
 	 
-	 @OneToMany(mappedBy="Eqs")
-	 @JsonIgnore
-	 private Set<Membre> members;
+	@ManyToMany(cascade = { CascadeType.ALL })
+	  @JsonIgnore
+	    @JoinTable(
+	        name = "Mem_eq", 
+	        joinColumns = { @JoinColumn(name = "id_equipe") }, 
+	        inverseJoinColumns = { @JoinColumn(name = "id_membre") }
+	    )
+	    Set<Membre> membres = new HashSet<>();
 	 
 	public long getId_equipe() {
 		return id_equipe;
@@ -83,12 +92,14 @@ public class equipe implements Serializable{
 		this.event = event;
 	}
 
-	public Set<Membre> getMembers() {
-		return members;
+	public Set<Membre> getMembres() {
+		return membres;
 	}
 
-	public void setMembers(Set<Membre> members) {
-		this.members = members;
+	public void setMembres(Set<Membre> membres) {
+		this.membres = membres;
 	}
+
+
 	
 }
