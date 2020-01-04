@@ -1,5 +1,6 @@
 package com.example.GestionHackaton.controller;
 
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -154,7 +155,48 @@ public class EvenementController {
 		}
 		return m;
 	}
-	
+	@GetMapping("/nbMemebersH")
+	public ArrayList<Integer> getNbMembersH(){
+		ArrayList<Integer> nbMembersH = new ArrayList<Integer>();
+		ArrayList<Membre> members = (ArrayList<Membre>)memrepository.findAll();
+		ArrayList<Evenement> evenements = (ArrayList<Evenement>)evenementrepository.findAll();
+		for(int event=0;event<evenements.size();event++) {
+			nbMembersH.add(0);
+			for(Membre m:members) {
+				if(m.getHackatons().contains(evenements.get(event))) {
+					System.out.println("---------------------------------------");
+					if(m.getSexe().equals("homme")) {
+						System.out.println("****************************");
+						nbMembersH.set(event, nbMembersH.get(event)+1);
+					}
+				}
+			}
+		}
 		
+		return nbMembersH;
+	}
+		
+	@GetMapping("/nbMemebersF")
+	public ArrayList<Integer> getNbMembersF(){
+		ArrayList<Integer> nbMembersF = new ArrayList<Integer>();
+		ArrayList<Membre> members = (ArrayList<Membre>)memrepository.findAll();
+		ArrayList<Evenement> evenements = (ArrayList<Evenement>)evenementrepository.findAll();
+		for(int event=0;event<evenements.size();event++) {
+			nbMembersF.add(0);
+			for(Membre m:members) {
+				if(m.getHackatons().contains(evenements.get(event))) {
+					System.out.println("---------------------------------------");
+					if(m.getSexe().equals("femme")) {
+						System.out.println("*******************************");
+						nbMembersF.set(event, nbMembersF.get(event)+1);
+					}
+				}
+			}
+		}
+		
+		return nbMembersF;
+	}
+		
+	
 }	
 	
