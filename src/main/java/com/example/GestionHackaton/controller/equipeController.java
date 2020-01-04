@@ -57,8 +57,6 @@ public class equipeController {
 		eqq.setEvent(event);
 	    equipeRep.saveAndFlush(eqq);
 	    return ""+eqq.getId_equipe();
-	    
-	
 	}
 	@GetMapping("/all")
 	public List<equipe> load(){
@@ -95,9 +93,14 @@ public class equipeController {
 	}
 	@GetMapping("/mesEquipe/{id}")
 	public Set<equipe> mesEquipe(@PathVariable Long id){
-		Evenement event=evenementrepository.findById(id).get();
-		return event.getEq();
+		Evenement ev=evenementrepository.findById(id).get();
 		
+		return ev.getEq();
+	}
+	@GetMapping("/membreParEquipes/{id}")
+	public Set<Membre> membreParEquipes(@PathVariable Long id){
+		equipe eq=equipeRep.findById(id).get();
+		return eq.getMembres();
 	}
 	
 }

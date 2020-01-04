@@ -26,10 +26,7 @@ public class MembreController {
 	public List<Membre> load(){
 		return memrepository.findAll();
 	}
-	@GetMapping("/membreParEquipes/{id}")
-	public List<Membre> membreParEquipes(){
-		return memrepository.findAll();
-	}
+	
 	
 
 }
