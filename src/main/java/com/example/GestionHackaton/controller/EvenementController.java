@@ -155,6 +155,7 @@ public class EvenementController {
 		}
 		return m;
 	}
+<<<<<<< HEAD
 	@GetMapping("/nbMemebersH")
 	public ArrayList<Integer> getNbMembersH(){
 		ArrayList<Integer> nbMembersH = new ArrayList<Integer>();
@@ -172,6 +173,10 @@ public class EvenementController {
 				}
 			}
 		}
+=======
+
+	
+>>>>>>> 1b318d6ae75d162202829768a06f1bbf1223a5ab
 		
 		return nbMembersH;
 	}
