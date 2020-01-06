@@ -93,6 +93,10 @@ public class Evenement implements Serializable {
 	    @JoinColumn(name="id_Admin")
 	    private Administrateur admins;
 	    
+	    @OneToMany(mappedBy="even")
+	    @JsonIgnore
+	    private Set<Demande> demandes;
+	    
 	public Set<Membre> getMembre() {
 		return membre;
 	}
@@ -192,6 +196,16 @@ public class Evenement implements Serializable {
 
 	public void setEqestcreer(boolean eqestcreer) {
 		this.eqestcreer = eqestcreer;
+	}
+
+
+	public Set<Demande> getDemandes() {
+		return demandes;
+	}
+
+
+	public void setDemandes(Set<Demande> demandes) {
+		this.demandes = demandes;
 	}
 
 	

@@ -1,6 +1,5 @@
 package com.example.GestionHackaton.controller;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -21,9 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.GestionHackaton.model.Administrateur;
+import com.example.GestionHackaton.model.Demande;
 import com.example.GestionHackaton.model.Evenement;
 import com.example.GestionHackaton.model.Membre;
 import com.example.GestionHackaton.repository.AdministrateurRepository;
+import com.example.GestionHackaton.repository.DemandeRepository;
 import com.example.GestionHackaton.repository.EvenementRepository;
 import com.example.GestionHackaton.repository.MembreRepository;
 
@@ -39,6 +40,9 @@ public class EvenementController {
 	MembreRepository memrepository;
  	@Autowired
 	AdministrateurRepository adminrepository;
+
+	@Autowired
+	DemandeRepository demandeRep;
 	
 	
 	@PostMapping("/update")
@@ -92,6 +96,17 @@ public class EvenementController {
 		Evenement evt= evenementrepository.findById(id_Hackaton).get();
 		Membre m= memrepository.findById(id_membre).get();
 	    evt.getMembre().add(m);
+	    /* new */
+	    Demande maDemande=new Demande();
+		Set<Demande> demandes=evt.getDemandes();
+		for(Demande el:demandes) {
+			if(el.getMembre().getId_mem()==id_membre) {
+				maDemande=el;
+				maDemande.setEtat("A");
+			}
+		}
+		demandeRep.saveAndFlush(maDemande);
+	    /*fin new */
 		evenementrepository.saveAndFlush(evt);
 	
 	}
@@ -155,7 +170,7 @@ public class EvenementController {
 		}
 		return m;
 	}
-<<<<<<< HEAD
+
 	@GetMapping("/nbMemebersH")
 	public ArrayList<Integer> getNbMembersH(){
 		ArrayList<Integer> nbMembersH = new ArrayList<Integer>();
@@ -173,10 +188,7 @@ public class EvenementController {
 				}
 			}
 		}
-=======
 
-	
->>>>>>> 1b318d6ae75d162202829768a06f1bbf1223a5ab
 		
 		return nbMembersH;
 	}
@@ -201,7 +213,26 @@ public class EvenementController {
 		
 		return nbMembersF;
 	}
+	
+	@GetMapping("/mesDemandes/{id}")
+	public Set<Membre> mesDemandes(@PathVariable Long id){
+		Set<Demande> d = new HashSet<>();
+		Set<Membre> m = new HashSet<>();
+		Evenement event = evenementrepository.findById(id).get();
+		d=event.getDemandes();
+		for(Demande el:d){
+			
+			if(el.getEtat().equals("C")) {
+				
+			m.add(el.getMembre());
+			}
+		}
+		return m;
+	}
 		
 	
-}	
+}
+		
+	
+
 	

@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.GestionHackaton.model.Administrateur;
 import com.example.GestionHackaton.model.Evenement;
 import com.example.GestionHackaton.model.Membre;
 import com.example.GestionHackaton.model.equipe;
@@ -22,7 +21,6 @@ import com.example.GestionHackaton.repository.EvenementRepository;
 import com.example.GestionHackaton.repository.MembreRepository;
 import com.example.GestionHackaton.repository.equipeRepository;
 
-import javassist.compiler.ast.Member;
 
 @RestController
 @RequestMapping("equipes")
@@ -38,7 +36,6 @@ public class equipeController {
 	MembreRepository memrepository;
 	
 	@PostMapping("/save")
-
 	public String save(@RequestBody equipe eq){
 		System.out.println("appele save");
 	   equipe eqq=equipeRep.saveAndFlush(eq);
