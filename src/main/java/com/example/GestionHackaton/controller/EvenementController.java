@@ -23,10 +23,12 @@ import com.example.GestionHackaton.model.Administrateur;
 import com.example.GestionHackaton.model.Demande;
 import com.example.GestionHackaton.model.Evenement;
 import com.example.GestionHackaton.model.Membre;
+import com.example.GestionHackaton.model.equipe;
 import com.example.GestionHackaton.repository.AdministrateurRepository;
 import com.example.GestionHackaton.repository.DemandeRepository;
 import com.example.GestionHackaton.repository.EvenementRepository;
 import com.example.GestionHackaton.repository.MembreRepository;
+import com.example.GestionHackaton.repository.equipeRepository;
 
 
 
@@ -40,7 +42,8 @@ public class EvenementController {
 	MembreRepository memrepository;
  	@Autowired
 	AdministrateurRepository adminrepository;
-
+	@Autowired
+	equipeRepository equipeRep;
 	@Autowired
 	DemandeRepository demandeRep;
 	
@@ -192,6 +195,41 @@ public class EvenementController {
 		
 		return nbMembersH;
 	}
+	
+	@GetMapping("/nbHackaton")
+	public int getNbHackatons(){
+		List<Evenement> ev = evenementrepository.findAll();
+
+		return ev.size();
+	}
+	
+	@GetMapping("/nbEquipe")
+	public int NbEquipe(){
+		List<equipe> eq =equipeRep.findAll();
+
+		return eq.size();
+	}
+	
+	@GetMapping("/nbDemande")
+	public int NbDemande(){
+		List<Demande> d =demandeRep.findAll();
+
+		return d.size();
+	}
+	
+	
+	@GetMapping("/nbParticipants")
+	public int getNbPArticipants(){
+		List<Membre> m = memrepository.findAll();
+		Set<Membre> s = new HashSet<Membre>();
+		for(Membre el:m) {
+			if(el.getHackatons().size() != 0) {
+				s.add(el);
+			}
+		}
+		return s.size();
+	}
+		
 		
 	@GetMapping("/nbMemebersF")
 	public ArrayList<Integer> getNbMembersF(){
